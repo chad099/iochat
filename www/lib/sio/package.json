@@ -1,0 +1,59 @@
+{
+  "name": "sio",
+  "version": "0.0.4",
+  "description": "Socket.io CLI utility",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/connor4312/sio"
+  },
+  "keywords": [
+    "socket.io",
+    "socketio",
+    "websocket",
+    "cli",
+    "debugger"
+  ],
+  "bin": {
+    "sio": "index.js"
+  },
+  "preferGlobal": true,
+  "author": {
+    "name": "Connor Peet",
+    "email": "connor@connorpeet.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/connor4312/sio/issues"
+  },
+  "homepage": "https://github.com/connor4312/sio",
+  "dependencies": {
+    "blessed": "0.0.44",
+    "lodash": "^3.1.0",
+    "minimatch": "^2.0.1",
+    "socket.io-client": "*",
+    "stringify-object": "^1.0.0"
+  },
+  "gitHead": "3d85d26a1432aa4e319bc733e6f349f510057180",
+  "_id": "sio@0.0.4",
+  "scripts": {},
+  "_shasum": "c81ccd02bd3ac7ee63df6c77f429b149e0c4c61f",
+  "_from": "sio@latest",
+  "_npmVersion": "1.4.21",
+  "_npmUser": {
+    "name": "connor.peet",
+    "email": "connor@connorpeet.com"
+  },
+  "maintainers": [
+    {
+      "name": "connor.peet",
+      "email": "connor@connorpeet.com"
+    }
+  ],
+  "dist": {
+    "shasum": "c81ccd02bd3ac7ee63df6c77f429b149e0c4c61f",
+    "tarball": "https://registry.npmjs.org/sio/-/sio-0.0.4.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/sio/-/sio-0.0.4.tgz"
+}

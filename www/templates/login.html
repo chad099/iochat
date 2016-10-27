@@ -1,0 +1,24 @@
+<ion-view view-title="Login" align-title="left">
+    <ion-content>
+        <div class="hero no-header flat">
+            <div class="content">
+                <div class="app-icon"></div>
+                <h1>Quasar</h1>
+            </div>
+        </div>
+        <div class="list">
+            <ion-md-input placeholder="Email" data-ng-model="loginData.email" highlight-color="balanced" type="text"></ion-md-input>
+            <span class="input-error">{{ error['email'] }}</span>
+            <ion-md-input placeholder="Password" data-ng-model="loginData.password" highlight-color="energized" type="password"></ion-md-input>
+            <span class="input-error">{{ error['password'] }}</span>
+        </div>
+        <div class="padding">
+            <button data-ng-click="loginUser()" class="button button-full button-assertive ink">Login</button>
+        </div>
+        <div class="button-bar social-login">
+            <button class="button button-small button-border icon-left ion-social-google button-assertive-900">Google+</button>
+            <button class="button button-small button-border icon-left ion-social-twitter button-calm-900">Twitter</button>
+            <button class="button button-small button-border icon-left ion-social-facebook button-positive-900">Facebook</button>
+        </div>
+    </ion-content>
+</ion-view>
