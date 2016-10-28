@@ -296,3 +296,8 @@ a.autolinker {
 .button.button-assertive {
   background-color: #68EFAD;
 }
+
+.nodeco {
+  overflow: none !important;
+  text-decoration: none;
+}
