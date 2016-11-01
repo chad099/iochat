@@ -301,3 +301,19 @@ a.autolinker {
   overflow: none !important;
   text-decoration: none;
 }
+.list .item {
+  min-height: 57px;
+}
+.footer-btn-wrap {
+  background-color: #68EFAD;
+  top:0px;
+}
+
+.user-avatar {
+    height: 50px;
+    width: 50px;
+    z-index: 99999999;
+    position: absolute;
+    border-radius: 50%;
+    background-size: cover;
+}

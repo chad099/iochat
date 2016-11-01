@@ -9,9 +9,9 @@
         <form>
           <div class="list">
               <ion-md-input placeholder="Email" data-ng-model="loginData.email" highlight-color="balanced" type="text"></ion-md-input>
-              <span class="input-error">{{ error['email'] }}</span>
+              <span class="input-error">{{ error['email'].toString() }}</span>
               <ion-md-input placeholder="Password" data-ng-model="loginData.password" highlight-color="energized" type="password"></ion-md-input>
-              <span class="input-error">{{ error['password'] }}</span>
+              <span class="input-error">{{ error['password'].toString() }}</span>
           </div>
           <div class="padding">
               <button data-ng-click="loginUser()" class="button button-full button-assertive ink">Login</button>

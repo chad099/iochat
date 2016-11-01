@@ -1,7 +1,7 @@
-<ion-view view-title="Chat" id="userMessagesView">
+<ion-view view-title="{{ toUser.name }}" id="userMessagesView">
     <ion-content has-bouncing="true" ng-class="{expanded:isExpanded}" class="has-header has-footer" delegate-handle="userMessageScroll">
       <div class="list animate-fade-slide-in-right">
-            <div ng-repeat="message in messages" class="message-wrapper"
+            <div ng-repeat="message in messages track by message.message_id+$index" class="message-wrapper"
                 on-hold="onMessageHold($event, $index, message)">
 
                 <div ng-if="user.id != message.id">
@@ -17,7 +17,7 @@
                         <div class="message-detail">
                             <span ng-click="viewProfile(message)"
                                 class="bold">{{message.name}}</span>,
-                            <span am-time-ago="message.date"></span>
+                            <span am-time-ago="{{ message.created_at | date }}"></span>
                         </div>
 
                     </div>
@@ -33,7 +33,7 @@
                         <div class="message-detail">
                             <span ng-click="viewProfile(message)"
                                 class="bold">{{message.name}}</span>,
-                            <span am-time-ago="{{ message.created_at}} "></span>
+                            <span am-time-ago="{{ message.created_at | date }} "></span>
                         </div>
                     </div>
                 </div>

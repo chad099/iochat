@@ -4,7 +4,7 @@
           <div class="invite-body">
             <div class="list">
                 <ion-md-input  placeholder="Email" name="email" ng-model="invite.email" highlight-color="balanced" type="text"></ion-md-input>
-                <span class="input-error">{{ error['email'] }}</span>
+                <span class="input-error">{{ error['email'].toString() }}</span>
             </div>
             <div class="padding">
                 <button ng-click="inviteUser()" class="button button-full button-assertive ink">Invite</button>

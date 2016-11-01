@@ -1,7 +1,6 @@
 /* global angular, document, window */
 'use strict';
-
-angular.module('starter.controllers', ['toaster','btford.socket-io'])
+angular.module('starter.controllers', ['toaster','btford.socket-io', 'angularMoment'])
 .factory('apiFactory',['$http',function ($http) {
     var urlBase = 'http://chat.passionistas.in/api/v1';
     var methods = {};
@@ -39,22 +38,6 @@ angular.module('starter.controllers', ['toaster','btford.socket-io'])
     $scope.isExpanded = false;
     $scope.hasHeaderFabLeft = false;
     $scope.hasHeaderFabRight = false;
-    var txtInput, footerBar;
-    // window.localStorage.setItem('auth', JSON.stringify({token:'V6IOZFjORKusv0n3diHOlyh9BjG8I8y5WYmCk2yuODIXfVkLBZMQdS4tHei5', id:1, profile_picture:'https://lh6.googleusercontent.com/-jNeMnnJavvM/AAAAAAAAAAI/AAAAAAAAATA/4zLWVQvunVE/photo.jpg?sz=50', name:'Shekhar Singh'}))
-    // $timeout(function() {
-    //     footerBar = document.body.querySelector('form');
-    //     txtInput = angular.element(footerBar.querySelector('ion-md-input'));
-    //   }, 0);
-
-
-    $scope.keepKeyboardOpen = function () {
-      console.log('keepKeyboardOpen');
-      // txtInput.one('blur', function() {
-      //   console.log('textarea blur, focus back on it');
-      //   console.log(txtInput[0]);
-      //   txtInput[0].focus();
-      // });
-    };
 
     if(!Auth.user().id) {
         $state.go('app.login');
@@ -293,8 +276,11 @@ angular.module('starter.controllers', ['toaster','btford.socket-io'])
 
 })
 
-.controller('InviteCtrl', function($scope, $stateParams, $timeout, ionicMaterialInk, ionicMaterialMotion, apiFactory, toaster, $ionicLoading, Auth) {
-    $scope.$parent.showHeader();
+.controller('InviteCtrl', function($scope, $stateParams, $timeout, ionicMaterialInk, ionicMaterialMotion, apiFactory, toaster, $ionicLoading, Auth, socket) {
+    $timeout(function() {
+      //keepKeyboardOpen();
+      $scope.$parent.showHeader();
+    }, 0);
     $scope.$parent.clearFabs();
     $scope.isExpanded = true;
     $scope.$parent.setExpanded(true);
@@ -303,6 +289,8 @@ angular.module('starter.controllers', ['toaster','btford.socket-io'])
     ionicMaterialMotion.fadeSlideInRight({
         selector: '.animate-fade-slide-in .item'
     });
+
+    socket.on('online', Auth.user());
 
     $scope.inviteUser = function () {
       $scope.loader({show:true});
@@ -328,8 +316,9 @@ angular.module('starter.controllers', ['toaster','btford.socket-io'])
   $scope.isExpanded = true;
   $scope.$parent.setExpanded(true);
   $scope.$parent.setHeaderFab(false);
-  $scope.messages = {};
+  $scope.messages = [];
   $scope.user = Auth.user();
+  $scope.toUser = {};
   var messageCheckTimer;
   var viewScroll = $ionicScrollDelegate.$getByHandle('userMessageScroll');
   var footerBar; // gets set in $ionicView.enter
@@ -349,13 +338,25 @@ angular.module('starter.controllers', ['toaster','btford.socket-io'])
   {
       $scope.user.receiver = $stateParams.id;
       socket.emit('setup',$scope.user);
+      apiFactory.post('/user/'+$stateParams.id, {'api_token':Auth.user().token})
+                .success(function (response) {
+                    $scope.toUser = response;
+                    $scope.user.receiver = $scope.toUser.id;
+                    socket.on('setup', $scope.user);
+                })
+                .error(function (error, status) {
+                    toaster.pop('error', "User Error", error);
+                });
   }
+
+
 
   $scope.getMessages = function () {
     $scope.loader({show:true});
     apiFactory.post('/messages', {id:$stateParams.id, api_token: Auth.user().token})
               .success(function(response){
                 $scope.messages = response;
+                console.log('response');
                 $scope.loader({show:false});
               })
               .error(function (error, status) {
@@ -363,7 +364,7 @@ angular.module('starter.controllers', ['toaster','btford.socket-io'])
                 $scope.loader({show:false});
             });
   };
-
+  
   $scope.sendMessage = function(sendMessageForm) {
       $scope.user.receiver = $stateParams.id;
       $scope.user.message  = $scope.input.message;
@@ -376,8 +377,8 @@ angular.module('starter.controllers', ['toaster','btford.socket-io'])
       //MockService.sendMessage(message).then(function(data) {
       $scope.input.message = '';
 
-      //message.id = new Date().getTime(); // :~)
-      $scope.user.created_at = new Date();
+      $scope.user.message_id = new Date().getTime();
+      $scope.user.created_at = new Date().getTime();
       $scope.messages.push($scope.user);
       $timeout(function() {
         //keepKeyboardOpen();
@@ -392,26 +393,36 @@ angular.module('starter.controllers', ['toaster','btford.socket-io'])
 
       //});
     };
-
   $scope.getMessages();
   socket.on('receiver', function (data) {
+    console.log('receive chat message');
     $scope.messages.push(data);
     $timeout(function() {
-      //$scope.messages.push(MockService.getMockMessage());
       keepKeyboardOpen();
       viewScroll.scrollBottom(true);
     }, 2000);
     console.log('Thisn is response Data');
   });
 
+  socket.on('message', function (data) {
+    console.log('receive message');
+    toaster.pop('success', data.name, data.message);
+  });
+
   function keepKeyboardOpen () {
     console.log('keepKeyboardOpen');
     txtInput.one('blur', function() {
       console.log('textarea blur, focus back on it');
-      console.log(txtInput[0]);
       txtInput[0].focus();
     });
   };
 
+})
+.filter('date', function ($filter) {
+  return function(input)
+    {
+        if(input == null){ return ""; }
+        return new Date(input).getTime();
+    };
 })
 ;

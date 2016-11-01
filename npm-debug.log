@@ -1,0 +1,128 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/nodejs',
+1 verbose cli   '/usr/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'ionic-native',
+1 verbose cli   '--save' ]
+2 info using npm@2.15.9
+3 info using node@v4.6.0
+4 verbose install initial load of /home/chill/iochat/package.json
+5 warn package.json sample@1.0.0 No repository field.
+6 warn package.json sample@1.0.0 No README data
+7 warn package.json sample@1.0.0 No license field.
+8 verbose readDependencies loading dependencies from /home/chill/iochat/package.json
+9 silly cache add args [ 'ionic-native', null ]
+10 verbose cache add spec ionic-native
+11 silly cache add parsed spec Result {
+11 silly cache add   raw: 'ionic-native',
+11 silly cache add   scope: null,
+11 silly cache add   name: 'ionic-native',
+11 silly cache add   rawSpec: '',
+11 silly cache add   spec: 'latest',
+11 silly cache add   type: 'tag' }
+12 silly addNamed ionic-native@latest
+13 verbose addNamed "latest" is being treated as a dist-tag for ionic-native
+14 info addNameTag [ 'ionic-native', 'latest' ]
+15 silly mapToRegistry name ionic-native
+16 silly mapToRegistry using default registry
+17 silly mapToRegistry registry https://registry.npmjs.org/
+18 silly mapToRegistry data Result {
+18 silly mapToRegistry   raw: 'ionic-native',
+18 silly mapToRegistry   scope: null,
+18 silly mapToRegistry   name: 'ionic-native',
+18 silly mapToRegistry   rawSpec: '',
+18 silly mapToRegistry   spec: 'latest',
+18 silly mapToRegistry   type: 'tag' }
+19 silly mapToRegistry uri https://registry.npmjs.org/ionic-native
+20 verbose addNameTag registry:https://registry.npmjs.org/ionic-native not in flight; fetching
+21 verbose request uri https://registry.npmjs.org/ionic-native
+22 verbose request no auth needed
+23 info attempt registry request try #1 at 10:53:25 AM
+24 verbose request id 30871806a2ef65a8
+25 http request GET https://registry.npmjs.org/ionic-native
+26 info retry will retry, error on last attempt: Error: read ECONNRESET
+27 info attempt registry request try #2 at 10:53:44 AM
+28 http request GET https://registry.npmjs.org/ionic-native
+29 http 200 https://registry.npmjs.org/ionic-native
+30 verbose headers { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+30 verbose headers   etag: '"C8KYQL2CI2HHF1TBAJFEL1IL4"',
+30 verbose headers   'content-type': 'application/json',
+30 verbose headers   'content-encoding': 'gzip',
+30 verbose headers   'cache-control': 'max-age=300',
+30 verbose headers   'content-length': '15455',
+30 verbose headers   'accept-ranges': 'bytes',
+30 verbose headers   date: 'Sun, 30 Oct 2016 05:23:46 GMT',
+30 verbose headers   via: '1.1 varnish',
+30 verbose headers   age: '20',
+30 verbose headers   connection: 'keep-alive',
+30 verbose headers   'x-served-by': 'cache-sin6925-SIN',
+30 verbose headers   'x-cache': 'HIT',
+30 verbose headers   'x-cache-hits': '1',
+30 verbose headers   'x-timer': 'S1477805026.987648,VS0,VE0',
+30 verbose headers   vary: 'Accept-Encoding' }
+31 silly get cb [ 200,
+31 silly get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+31 silly get     etag: '"C8KYQL2CI2HHF1TBAJFEL1IL4"',
+31 silly get     'content-type': 'application/json',
+31 silly get     'content-encoding': 'gzip',
+31 silly get     'cache-control': 'max-age=300',
+31 silly get     'content-length': '15455',
+31 silly get     'accept-ranges': 'bytes',
+31 silly get     date: 'Sun, 30 Oct 2016 05:23:46 GMT',
+31 silly get     via: '1.1 varnish',
+31 silly get     age: '20',
+31 silly get     connection: 'keep-alive',
+31 silly get     'x-served-by': 'cache-sin6925-SIN',
+31 silly get     'x-cache': 'HIT',
+31 silly get     'x-cache-hits': '1',
+31 silly get     'x-timer': 'S1477805026.987648,VS0,VE0',
+31 silly get     vary: 'Accept-Encoding' } ]
+32 verbose get saving ionic-native to /home/chill/.npm/registry.npmjs.org/ionic-native/.cache.json
+33 verbose correctMkdir /home/chill/.npm correctMkdir not in flight; initializing
+34 silly addNameTag next cb for ionic-native with tag latest
+35 silly addNamed ionic-native@2.2.6
+36 verbose addNamed "2.2.6" is a plain semver version for ionic-native
+37 silly mapToRegistry name ionic-native
+38 silly mapToRegistry using default registry
+39 silly mapToRegistry registry https://registry.npmjs.org/
+40 silly mapToRegistry data Result {
+40 silly mapToRegistry   raw: 'ionic-native',
+40 silly mapToRegistry   scope: null,
+40 silly mapToRegistry   name: 'ionic-native',
+40 silly mapToRegistry   rawSpec: '',
+40 silly mapToRegistry   spec: 'latest',
+40 silly mapToRegistry   type: 'tag' }
+41 silly mapToRegistry uri https://registry.npmjs.org/ionic-native
+42 verbose addRemoteTarball https://registry.npmjs.org/ionic-native/-/ionic-native-2.2.6.tgz not in flight; adding
+43 verbose addRemoteTarball [ 'https://registry.npmjs.org/ionic-native/-/ionic-native-2.2.6.tgz',
+43 verbose addRemoteTarball   'cfd8f8bc6ab4d38eb9c52c079644d25fd5e7baa0' ]
+44 info retry fetch attempt 1 at 10:53:48 AM
+45 info attempt registry request try #1 at 10:53:48 AM
+46 http fetch GET https://registry.npmjs.org/ionic-native/-/ionic-native-2.2.6.tgz
+47 http fetch 200 https://registry.npmjs.org/ionic-native/-/ionic-native-2.2.6.tgz
+48 info retry will retry, error on last attempt: Error: read ECONNRESET
+49 info retry will retry, error on last attempt: Error: read ECONNRESET
+50 silly fetchAndShaCheck shasum cfd8f8bc6ab4d38eb9c52c079644d25fd5e7baa0
+51 verbose stack Error: shasum check failed for /tmp/npm-6044-01bed741/registry.npmjs.org/ionic-native/-/ionic-native-2.2.6.tgz
+51 verbose stack Expected: cfd8f8bc6ab4d38eb9c52c079644d25fd5e7baa0
+51 verbose stack Actual:   ee2f4baaefd4b535f3d27679e24bf6a8ac6f1d2a
+51 verbose stack From:     https://registry.npmjs.org/ionic-native/-/ionic-native-2.2.6.tgz
+51 verbose stack     at /usr/lib/node_modules/npm/node_modules/sha/index.js:25:8
+51 verbose stack     at ReadStream.<anonymous> (/usr/lib/node_modules/npm/node_modules/sha/index.js:72:7)
+51 verbose stack     at emitNone (events.js:72:20)
+51 verbose stack     at ReadStream.emit (events.js:166:7)
+51 verbose stack     at endReadableNT (_stream_readable.js:921:12)
+51 verbose stack     at nextTickCallbackWith2Args (node.js:442:9)
+51 verbose stack     at process._tickCallback (node.js:356:17)
+52 verbose cwd /home/chill/iochat
+53 error Linux 3.13.0-24-generic
+54 error argv "/usr/bin/nodejs" "/usr/bin/npm" "install" "ionic-native" "--save"
+55 error node v4.6.0
+56 error npm  v2.15.9
+57 error shasum check failed for /tmp/npm-6044-01bed741/registry.npmjs.org/ionic-native/-/ionic-native-2.2.6.tgz
+57 error Expected: cfd8f8bc6ab4d38eb9c52c079644d25fd5e7baa0
+57 error Actual:   ee2f4baaefd4b535f3d27679e24bf6a8ac6f1d2a
+57 error From:     https://registry.npmjs.org/ionic-native/-/ionic-native-2.2.6.tgz
+58 error If you need help, you may report this error at:
+58 error     <https://github.com/npm/npm/issues>
+59 verbose exit [ 1, true ]
