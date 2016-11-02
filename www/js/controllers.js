@@ -1,6 +1,6 @@
 /* global angular, document, window */
 'use strict';
-angular.module('starter.controllers', ['toaster','btford.socket-io', 'angularMoment'])
+angular.module('starter.controllers', ['toaster','btford.socket-io', 'angularMoment', 'ngCordovaOauth'])
 .factory('apiFactory',['$http',function ($http) {
     var urlBase = 'http://chat.passionistas.in/api/v1';
     var methods = {};
@@ -139,7 +139,7 @@ angular.module('starter.controllers', ['toaster','btford.socket-io', 'angularMom
 
 })
 
-.controller('LoginCtrl', function($scope, $timeout, $stateParams, ionicMaterialInk, apiFactory, $state, Auth, toaster) {
+.controller('LoginCtrl', function($scope, $timeout, $stateParams, ionicMaterialInk, apiFactory, $state, Auth, toaster, $cordovaOauth) {
      if(Auth.user().id) {
          $state.go('app.invite');
      }
@@ -165,7 +165,15 @@ angular.module('starter.controllers', ['toaster','btford.socket-io', 'angularMom
               if(error.message)
                 toaster.pop('error', 'Error', error.message);
           });
-    }
+    };
+
+    $scope.googleLogin = function() {
+        $cordovaOauth.google("662530261490-10prri7ss1rsu528mj2chhbejvdjv1rj.apps.googleusercontent.com", ["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/plus.me", "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/contacts.readonly", "https://www.googleapis.com/auth/gmail.readonly"]).then(function(result) {
+            console.log('results', result);
+        }, function(error) {
+            console.log('Error:', error);
+        });
+    };
 })
 
 .controller('FriendsCtrl', function($scope, $stateParams, $timeout, ionicMaterialInk, ionicMaterialMotion, apiFactory, Auth, toaster) {
@@ -341,15 +349,11 @@ angular.module('starter.controllers', ['toaster','btford.socket-io', 'angularMom
       apiFactory.post('/user/'+$stateParams.id, {'api_token':Auth.user().token})
                 .success(function (response) {
                     $scope.toUser = response;
-                    $scope.user.receiver = $scope.toUser.id;
-                    socket.on('setup', $scope.user);
                 })
                 .error(function (error, status) {
                     toaster.pop('error', "User Error", error);
                 });
   }
-
-
 
   $scope.getMessages = function () {
     $scope.loader({show:true});
@@ -364,11 +368,11 @@ angular.module('starter.controllers', ['toaster','btford.socket-io', 'angularMom
                 $scope.loader({show:false});
             });
   };
-  
+
   $scope.sendMessage = function(sendMessageForm) {
       $scope.user.receiver = $stateParams.id;
       $scope.user.message  = $scope.input.message;
-      socket.emit('chat',$scope.user);
+      socket.emit('chat', $scope.user);
       // if you do a web service call this will be needed as well as before the viewScroll calls
       // you can't see the effect of this in the browser it needs to be used on a real device
       // for some reason the one time blur event is not firing in the browser but does on devices
