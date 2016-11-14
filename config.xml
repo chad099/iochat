@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.ionicframework.sample374926" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>Quasar</name>
+  <name>Qchat</name>
   <description>
         A chat application for passionistas
     </description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">
+  <author email="laravel.shekhar37@gmail.com" href="http://passionistas.in/">
       Ionic Framework Team
     </author>
   <content src="index.html"/>
+  <allow-navigation href="*" />
   <access origin="*"/>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://www.googleapis.com https://graph.facebook.com"/>
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>

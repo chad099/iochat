@@ -8,6 +8,9 @@ angular.module('starter.controllers', ['toaster','btford.socket-io', 'angularMom
     methods.post = function (url, data) {
        return $http.post(urlBase + url, data);
     };
+    methods.get = function (url) {
+       return $http.post(url);
+    };
 
     return methods;
 }])
@@ -31,7 +34,7 @@ angular.module('starter.controllers', ['toaster','btford.socket-io', 'angularMom
   	});
 	return mySocket;
 })
-.controller('AppCtrl', function($scope, $ionicModal, $ionicPopover, $timeout, toaster, $ionicLoading, Auth, $state) {
+.controller('AppCtrl', function($scope, $ionicModal, $ionicPopover, $timeout, toaster, $ionicLoading, Auth, $state, socket) {
     // Form data for the login modal
     $scope.loginData = {};
     $scope.invite = {};
@@ -42,6 +45,13 @@ angular.module('starter.controllers', ['toaster','btford.socket-io', 'angularMom
     if(!Auth.user().id) {
         $state.go('app.login');
     }
+
+    //if message recived
+    socket.on('message', function (data) {
+      console.log('receive message');
+      toaster.pop('success', data.name, data.message);
+    });
+
     $scope.logout = function () {
       window.localStorage.setItem('auth', JSON.stringify({}));
       $state.go('app.login');
@@ -57,6 +67,7 @@ angular.module('starter.controllers', ['toaster','btford.socket-io', 'angularMom
     {
         if(obj.show) {
           $ionicLoading.show({
+            template: '<ion-spinner icon="android"></ion-spinner>',
             content: obj.content || 'Loading',
             animation: obj.animation || 'fade-in',
             showBackdrop: obj.showBackdrop || true,
@@ -139,7 +150,7 @@ angular.module('starter.controllers', ['toaster','btford.socket-io', 'angularMom
 
 })
 
-.controller('LoginCtrl', function($scope, $timeout, $stateParams, ionicMaterialInk, apiFactory, $state, Auth, toaster, $cordovaOauth) {
+.controller('LoginCtrl', function($scope, $timeout, $stateParams, ionicMaterialInk, apiFactory, $state, Auth, toaster, $cordovaOauth, $http) {
      if(Auth.user().id) {
          $state.go('app.invite');
      }
@@ -169,10 +180,45 @@ angular.module('starter.controllers', ['toaster','btford.socket-io', 'angularMom
 
     $scope.googleLogin = function() {
         $cordovaOauth.google("662530261490-10prri7ss1rsu528mj2chhbejvdjv1rj.apps.googleusercontent.com", ["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/plus.me", "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/contacts.readonly", "https://www.googleapis.com/auth/gmail.readonly"]).then(function(result) {
-            console.log('results', result);
+            $scope.loader({show:true});
+            var accessToken;
+            accessToken = JSON.stringify(result);
+            console.log('accessToken', accessToken);
+            //getting profile info of the user
+              $http({method:"GET", url:"https://www.googleapis.com/plus/v1/people/me?access_token="+result.access_token}).
+              success(function(response){
+                  var user = {
+                      name: response["name"]["givenName"] +' '+response["name"]["familyName"],
+                      email: response.emails[0]["value"],
+                      token: accessToken,
+                      profile_picture: response.image.url,
+                      auth_type: 'google'
+                  };
+                  console.log('user object', user);
+                  $scope.apiSocialLogin(user);
+              }, function(error) {
+                $scope.loader({show:false});
+                toaster.pop('error', 'Error', error);
+            });
+
         }, function(error) {
             console.log('Error:', error);
+            toaster.pop('error', 'Error', error);
         });
+    };
+
+    $scope.apiSocialLogin = function (user) {
+      apiFactory.post('/sociallogin', user)
+            .success(function (response) {
+              window.localStorage.setItem('auth', JSON.stringify(response));
+              $scope.loader({show:false});
+              $state.go('app.invite');
+            })
+            .error(function(error, status) {
+              $scope.error = error;
+              $scope.loader({show:false});
+              toaster.pop('error', 'Error', error);
+          });
     };
 })
 
@@ -298,7 +344,7 @@ angular.module('starter.controllers', ['toaster','btford.socket-io', 'angularMom
         selector: '.animate-fade-slide-in .item'
     });
 
-    socket.on('online', Auth.user());
+    socket.emit('online', Auth.user());
 
     $scope.inviteUser = function () {
       $scope.loader({show:true});
@@ -345,8 +391,8 @@ angular.module('starter.controllers', ['toaster','btford.socket-io', 'angularMom
   if($stateParams.id)
   {
       $scope.user.receiver = $stateParams.id;
-      socket.emit('setup',$scope.user);
-      apiFactory.post('/user/'+$stateParams.id, {'api_token':Auth.user().token})
+      socket.emit('setup', $scope.user);
+      apiFactory.post('/user/' + $stateParams.id, {'api_token': Auth.user().token})
                 .success(function (response) {
                     $scope.toUser = response;
                 })
@@ -398,6 +444,8 @@ angular.module('starter.controllers', ['toaster','btford.socket-io', 'angularMom
       //});
     };
   $scope.getMessages();
+
+  //chat start from here
   socket.on('receiver', function (data) {
     console.log('receive chat message');
     $scope.messages.push(data);
@@ -408,17 +456,12 @@ angular.module('starter.controllers', ['toaster','btford.socket-io', 'angularMom
     console.log('Thisn is response Data');
   });
 
-  socket.on('message', function (data) {
-    console.log('receive message');
-    toaster.pop('success', data.name, data.message);
-  });
-
   function keepKeyboardOpen () {
     console.log('keepKeyboardOpen');
-    txtInput.one('blur', function() {
-      console.log('textarea blur, focus back on it');
-      txtInput[0].focus();
-    });
+    // txtInput.one('blur', function() {
+    //   console.log('textarea blur, focus back on it');
+    //   txtInput[0].focus();
+    // });
   };
 
 })

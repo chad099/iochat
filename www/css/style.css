@@ -317,3 +317,7 @@ a.autolinker {
     border-radius: 50%;
     background-size: cover;
 }
+
+.theme-color-text {
+  color: #68EFAD;
+}
